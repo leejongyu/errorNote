@@ -1,0 +1,25 @@
+# java.util.NoSuchElementException: No value present
+
+JpaRepository<>를 통해서 DB에 있는 파일을 검색하는 도중에, 값이 null인 경우 no vlaue present가 발생하면서 오류가 발생하였다.
+
+오류 코드 : 
+
+    @Transactional(readOnly = true)
+    public Cart read(Integer userId) {
+    	log.info("read(userId) ={}", userId);
+    	
+    	return cartRepository.findByUserId(userId).get();
+    }
+    
+    > findByUserId(userId)의 return값은 Optional<Class>. 따라서 return으로 Class 객체를 보내려면 .get()을 해야함
+    > Optional<Class>의 값이 null이기 때문에 class 객체를 하기위한 .get() 과정에서 에러가 발생
+    
+
+해결 방법 :
+
+    @Transactional(readOnly = true)
+    public Cart read(Integer userId) {
+    	log.info("read(userId) ={}", userId);
+    	
+    	return cartRepository.findByUserId(userId).orElse(null); <- .get() 부분을 orElse(null)로 바꿔서 값이 없을 경우 null을 리턴하도록 변경.
+    }
