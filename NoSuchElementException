@@ -20,6 +20,6 @@ JpaRepository<>를 통해서 DB에 있는 파일을 검색하는 도중에, 값�
     @Transactional(readOnly = true)
     public Cart read(Integer userId) {
     	log.info("read(userId) ={}", userId);
-    	
+    	 
     	return cartRepository.findByUserId(userId).orElse(null); <- .get() 부분을 orElse(null)로 바꿔서 값이 없을 경우 null을 리턴하도록 변경.
     }
