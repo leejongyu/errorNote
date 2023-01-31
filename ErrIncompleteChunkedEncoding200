@@ -1,3 +1,27 @@
 *HTML ERR_INCOMPLETE_CHUNKED_ENCODING 200 : 인코딩 오류
 
 CSS. JS, jsp 태그가 완벽하지 않거나, 정보를 인코딩 과정에서 발생한 오류 => 코딩 자체에 문제가 있다는 뜻!
+
+오류 코드  = 
+            <script>
+             const userName = [[ ${ user.userName }]];
+             
+             const myCart = [[ ${ cart.cartId }]];
+             
+             const myOrder = [[ ${ order.orderId }]];
+</script>
+
+            > controller에서 넘어온 cart, order의 객체가 각각 null 이어서 해당 객체에 있는 필드변수들을 지역변수로 할당하지 못하면서 오류가 발생하였다.
+            >> 각각 null값에서 cartId, orderId를 호출하니 오류가 발생하게 된 것!
+
+
+해결 방법 = 
+            <script>
+             const userName = [[ ${ user.userName }]];
+             
+             const myCart = [[ ${ cart }]];
+             
+             const myOrder = [[ ${ order }]];
+</script>
+
+            > 객체 자체를 할당하는 것으로 바꾸었더니 오류가 해결되었다.
